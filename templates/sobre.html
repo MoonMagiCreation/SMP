@@ -1,0 +1,90 @@
+{% load static from staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>SMP | Simulación Manual de Procesos</title>
+	<meta charset="utf8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+	<link rel="stylesheet" href="{% static 'vendor/fontawesome/fontawesome.min.css' %}">
+	<style>
+		.contenido p{
+			font-size: 20px;
+		}
+	</style>
+</head>
+<body>
+
+	<nav class="navbar navbar-expand-lg navbar-light bg-light" style="margin-bottom: 2rem;">
+  			<a class="navbar-brand" href="{% url 'index' %}">SMP</a>
+  			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    			<span class="navbar-toggler-icon"></span>
+  			</button>
+
+  			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+    			<ul class="navbar-nav mr-auto">
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						  	Generadores
+						</a>
+        				<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          					<a class="dropdown-item" href="#">Variables Aleatorias</a>
+          					<a class="dropdown-item" href="#">Observaciones</a>
+        				</div>
+      				</li>
+				  	<li class="nav-item">
+						<a class="nav-link" href="{% url 'simulacionmanual' %}">Simulación Manual</a>
+				  	</li>
+					<li class="nav-item dropdown active">
+						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						  	Ayuda
+						</a>
+        				<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          					<a class="dropdown-item" href="#">Tutorial de Simulación</a>
+							<div class="dropdown-divider"></div>
+          					<a class="dropdown-item" href="{% url 'sobre' %}">Sobre</a>
+        				</div>
+      				</li>
+    			</ul>
+  			</div>
+		</nav>
+
+	<div class="container">
+
+
+
+        <div class="row">
+            <div class="col-md-2">
+                <img width="250px" class="img-thumbnail" src="{% static 'img/avatar.jpg' %}" alt="">
+            </div>
+            <div class="col-md-10 contenido">
+
+                <p>
+                    <b>SMP</b> ha sido desarrollado por el ing. Josué Carballo Baños, profesor actual de la Universidad de
+                    las Ciencias Informáticas.
+                </p>
+                <p>
+                    <b>Versión actual:</b> 1.0 Beta
+                </p>
+                <p><small><i>
+                    Esta aún no constituye la versión final de este sistema. Puede presentar fallos. Por favor de enviar correo a
+                    <a href="mailto:mmcsoporte@yandex.com">mmcsoporte@yandex.com</a>.
+                </i></small></p>
+
+            </div>
+        </div>
+
+
+
+		<div class="col-md-12" style="height: 100px">
+
+		</div>
+
+
+	</div>
+
+	<script src="{% static 'js/jquery-3.1.1.min.js' %}"></script>
+	<script src="{% static 'vendor/popper/popper.js' %}"></script>
+	<script src="{% static 'js/bootstrap.min.js' %}"></script>
+</body>
+</html>

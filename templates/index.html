@@ -1,0 +1,101 @@
+{% load static from staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>SMP | Simulación Manual de Procesos</title>
+	<meta charset="utf8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+	<link rel="stylesheet" href="{% static 'vendor/fontawesome/fontawesome.min.css' %}">
+	<style>
+		.contenido p{
+			font-size: 20px;
+		}
+	</style>
+</head>
+<body>
+
+	<nav class="navbar navbar-expand-lg navbar-light bg-light" style="margin-bottom: 2rem;">
+  			<a class="navbar-brand" href="{% url 'index' %}">SMP</a>
+  			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    			<span class="navbar-toggler-icon"></span>
+  			</button>
+
+  			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+    			<ul class="navbar-nav mr-auto">
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						  	Generadores
+						</a>
+        				<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          					<a class="dropdown-item" href="#">Variables Aleatorias</a>
+          					<a class="dropdown-item" href="#">Observaciones</a>
+        				</div>
+      				</li>
+				  	<li class="nav-item">
+						<a class="nav-link" href="{% url 'simulacionmanual' %}">Simulación Manual</a>
+				  	</li>
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						  	Ayuda
+						</a>
+        				<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          					<a class="dropdown-item" href="#">Tutorial de Simulación</a>
+							<div class="dropdown-divider"></div>
+          					<a class="dropdown-item" href="{% url 'sobre' %}">Sobre</a>
+        				</div>
+      				</li>
+    			</ul>
+  			</div>
+		</nav>
+
+	<div class="container">
+
+
+		<div class="jumbotron" >
+			<h1 class="display-4"><b>SMP</b></h1>
+		  	<p class="lead">Simulación Manual de Procesos</p>
+		  	<hr class="my-4">
+		  	<p>
+				Herramienta escolar de simulación de procesos sencillos correspondientes a la asignatura de Simulación de la
+				<i>Universidad de las Ciencias Informáticas.</i> Esta herramienta servirá al estudiante para realizar las
+				comprobaciones referentes a los ejercicios de simulación de procesos de la vida real. <b>SMP</b> es de código
+                libre y puede acceder a el a través del código posteado en github.
+			</p>
+			<div class="text-center">
+				<a class="btn btn-primary btn-lg" href="#" role="button" > <i class="fa fa-github"></i> Código Fuente</a>
+			</div>
+		</div>
+
+		<div class="col-md-12 contenido">
+			<p>
+				La simulación de procesos es una representación basada en modelos de procesos químicos, físicos, biológicos y
+				otros procesos técnicos y operaciones unitarias en software. Los prerrequisitos básicos son un conocimiento profundo
+				de las propiedades físicas y químicas de componentes y mezclas puros, de reacciones y de modelos matemáticos que, en
+				combinación, permiten el cálculo de un proceso en computadoras.
+			</p>
+			<p>
+				<b>SMP</b> es un sistema sencillo para la realización de simulaciones manuales de procesos. Responde a las necesidades de la asignatura de
+				Simulación impartida en la Universidad de las Ciencias Informáticas. Esta versión no está exenta de errores. Su código fuente es open source
+				y pueden acceder a ello desde este enlace en github.
+			</p>
+			<p>
+				El objetivo es llegar a tener en este sistema un grupo amplio de posibilidades para el estudiante de 4to año pueda conocer, probar y aprender
+				los aspectos generales de la asignatura. Estas herramientas no buscan sustituir ni resolver todas las problemáticas de la asignatura, dejando
+				el esfuerzo propio de la interpretación y modelación al estudiante.
+			</p>
+		</div>
+
+
+		<div class="col-md-12" style="height: 100px">
+
+		</div>
+
+
+	</div>
+
+	<script src="{% static 'js/jquery-3.1.1.min.js' %}"></script>
+	<script src="{% static 'vendor/popper/popper.js' %}"></script>
+	<script src="{% static 'js/bootstrap.min.js' %}"></script>
+</body>
+</html>

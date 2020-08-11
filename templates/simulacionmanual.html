@@ -1,0 +1,956 @@
+{% load static from staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>SMP | Simulación Manual de Procesos</title>
+	<meta charset="utf8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+	<link rel="stylesheet" href="{% static 'vendor/fontawesome/fontawesome.min.css' %}">
+</head>
+<body>
+
+	<nav class="navbar navbar-expand-lg navbar-light bg-light" style="margin-bottom: 2rem;">
+  			<a class="navbar-brand" href="{% url 'index' %}">SMP</a>
+  			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    			<span class="navbar-toggler-icon"></span>
+  			</button>
+
+  			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+    			<ul class="navbar-nav mr-auto">
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						  	Generadores
+						</a>
+        				<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          					<a class="dropdown-item" href="#">Variables Aleatorias</a>
+          					<a class="dropdown-item" href="#">Observaciones</a>
+        				</div>
+      				</li>
+				  	<li class="nav-item active">
+						<a class="nav-link" href="{% url 'simulacionmanual' %}">Simulación Manual</a>
+				  	</li>
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						  	Ayuda
+						</a>
+        				<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          					<a class="dropdown-item" href="#">Tutorial de Simulación</a>
+							<div class="dropdown-divider"></div>
+          					<a class="dropdown-item" href="{% url 'sobre' %}">Sobre</a>
+        				</div>
+      				</li>
+    			</ul>
+  			</div>
+		</nav>
+
+	<div class="container">
+
+
+		<div class="jumbotron" >
+			<h1 class="display-4"><b>SMP</b></h1>
+		  	<p class="lead">Simulación Manual de Procesos</p>
+		  	<hr class="my-4">
+		  	<p>
+				Herramienta escolar de simulación de procesos sencillos correspondientes a la asignatura de Simulación de la
+				<i>Universidad de las Ciencias Informáticas.</i> Esta herramienta servirá al estudiante para realizar las
+				comprobaciones referentes a los ejercicios de simulación de procesos de la vida real. Puede ejecutar un ejemplo
+				de simulación manual de aviones en un aeropuerto para abastecerse de gasolina.
+			</p>
+			<div class="text-center">
+				<a class="btn btn-primary btn-lg" href="#" role="button" id="btnEjemplo"> <i class="fa fa-exclamation"></i> Cargar Ejemplo</a>
+			</div>
+		</div>
+
+
+		<!--PANEL DE ENTRADA-->
+		<div class="card" style="margin-bottom: 12px">
+			<div class="card-header">
+				<b>Variables de entrada y de estados</b>
+				<div class="dropdown" style="float: right">
+  					<button class="btn btn-secondary dropdown-toggle dropVar" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    					<i class="fa fa-plus"></i>
+  					</button>
+  					<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+    					<a class="dropdown-item itmFormula" href="#" data-objetivo="entrada">Fórmula</a>
+						<a class="dropdown-item itmCondicional2" href="#" data-objetivo="entrada">Condicional</a>
+  					</div>
+				</div>
+			</div>
+			<div class="card-body">
+				<div class="contenedor container" style="width: 100%" data-contenedor="entrada">
+					<!--Contenedor de variables-->
+					<div id="varEjemplos" class="container" style="width: 100%; display: none">
+					<span class="row" style="margin-bottom: 10px"><div class="col-md-1"><div class="btn btn-info btnAddColR1" style="display: none;"><i class="fa fa-plus"></i></div></div><div class="col-md-5">R1</div><div class="col-md-6">[A]</div></span><span class="row" style="margin-bottom: 10px"><div class="col-md-1"><div class="btn btn-info btnAddColTEA" style="display: none;"><i class="fa fa-plus"></i></div></div><div class="col-md-5">TEA</div><div class="col-md-6">R1*5</div></span><span class="row" style="margin-bottom: 10px"><div class="col-md-1"><div class="btn btn-info btnAddColR2" style="display: none;"><i class="fa fa-plus"></i></div></div><div class="col-md-5">R2</div><div class="col-md-6">[A]</div></span><div class="row" style="margin-bottom: 20px"><div class="col-md-1"><div class="btn btn-info btnAddCond2TA" style="display: none;"><i class="fa fa-plus"></i></div></div><div class="col-md-5">TA =</div><div class="col-md-6"><table class="table"><thead><tr><td>0</td><td>=&gt;</td><td>R2&lt;=0.5</td></tr><tr><td>1</td><td>=&gt;</td><td>R2&lt;=0.8</td></tr><tr><td>2</td><td>=&gt;</td><td>R2&lt;=1</td></tr></thead></table></div></div><span class="row" style="margin-bottom: 10px"><div class="col-md-1"><div class="btn btn-info btnAddColILL" style="display: none;"><i class="fa fa-plus"></i></div></div><div class="col-md-5">ILL</div><div class="col-md-6">ILL[i-1]+TEA</div></span><div class="row" style="margin-bottom: 20px"><div class="col-md-1"><div class="btn btn-info btnAddCond2EspA" style="display: none;"><i class="fa fa-plus"></i></div></div><div class="col-md-5">EspA =</div><div class="col-md-6"><table class="table"><thead><tr><td>0</td><td>=&gt;</td><td>ILL&gt;=IS[i-1]</td></tr><tr><td>1</td><td>=&gt;</td><td>ILL&lt;IS[i-1]</td></tr></thead></table></div></div><div class="row" style="margin-bottom: 20px"><div class="col-md-1"><div class="btn btn-info btnAddCond2ICA" style="display: none;"><i class="fa fa-plus"></i></div></div><div class="col-md-5">ICA =</div><div class="col-md-6"><table class="table"><thead><tr><td>ILL</td><td>=&gt;</td><td>EspA=0</td></tr><tr><td>IS[i-1]</td><td>=&gt;</td><td>EspA=1</td></tr></thead></table></div></div><div class="row" style="margin-bottom: 20px"><div class="col-md-1"><div class="btn btn-info btnAddCond2TAb" style="display: none;"><i class="fa fa-plus"></i></div></div><div class="col-md-5">TAb =</div><div class="col-md-6"><table class="table"><thead><tr><td>300/20</td><td>=&gt;</td><td>TA=0</td></tr><tr><td>550/20</td><td>=&gt;</td><td>TA=1</td></tr><tr><td>180/20</td><td>=&gt;</td><td>TA=2</td></tr></thead></table></div></div><span class="row" style="margin-bottom: 10px"><div class="col-md-1"><div class="btn btn-info btnAddColIS" style="display: none;"><i class="fa fa-plus"></i></div></div><div class="col-md-5">IS</div><div class="col-md-6">ICA+TAb</div></span></div>
+				</div>
+				<!--Fórmula-->
+				<div class="row formula" data-objetivo="entrada" style="display: none">
+					<div class="col-md-5">
+						<label for="">Nombre de Variable</label>
+						<input type="text" class="form-control" data-input="entradaNombreFormula">
+					</div>
+					<div class="col-md-6">
+						<label for="">Fórmula</label>
+						<input type="text" class="form-control" data-input="entradaFormula">
+					</div>
+					<div class="col-md-1">
+						<div class="btn btn-primary btnAddFormulaVar" data-contenedor="entrada" data-EE="true" style="margin-top: 30px"><i class="fa fa-plus"></i></div>
+					</div>
+				</div>
+				<!--Fin Fórmula-->
+				<!--Condicional2-->
+				<div class="row condicional2" data-objetivo="entrada" style="display: none">
+					<div class="col-md-5">
+						<label for="">Nombre de Variable</label>
+						<input type="text" class="form-control" data-input="entradaNombreCondicional2">
+					</div>
+					<div class="col-md-6">
+						<div style="width: 100%" class="contenedorCondiciones2" data-objetivo="entrada">
+							<!--Contenedor de variables-->
+						</div>
+						<div class="row">
+							<div class="col-md-2">
+								<label for="">ES</label>
+								<input type="text" class="form-control" data-input="entradaNombre">
+							</div>
+							<div class="col-md-2">
+								<label for="">SI</label>
+								<input type="text" class="form-control" disabled value="=>">
+							</div>
+							<div class="col-md-2">
+								<label for="">Valor1</label>
+								<input type="text" class="form-control" data-input="entradaValor1">
+							</div>
+							<div class="col-md-2">
+								<label for="">Oper</label>
+								<select class="form-control" data-input="entradaOper">
+									<option value="=" selected>=</option>
+									<option value=">=">>=</option>
+									<option value=">">></option>
+									<option value="<="><=</option>
+									<option value="<"><</option>
+								</select>
+							</div>
+							<div class="col-md-3">
+								<label for="">Valor2</label>
+								<input type="text" class="form-control" data-input="entradaValor2">
+							</div>
+							<div class="col-md-1">
+								<div class="btn btn-primary btnAddCond2" style="margin-top: 30px" data-objetivo="entrada"><i class="fa fa-plus"></i></div>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-1">
+						<div class="btn btn-primary btnAddCondicionalVar2" data-contenedor="entrada" style="margin-top: 30px"><i class="fa fa-plus"></i></div>
+					</div>
+				</div>
+				<!--Fin Condicional2-->
+			</div>
+		</div>
+		<!--FIN PANEL DE ENTRADA-->
+
+
+		<!--PANEL DE SALIDA-->
+		<div class="card" style="margin-bottom: 12px">
+			<div class="card-header">
+				<b>Variables de salida</b>
+				<div class="dropdown" style="float: right">
+  					<button class="btn btn-secondary dropdown-toggle dropVar" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    					<i class="fa fa-plus"></i>
+  					</button>
+  					<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+    					<a class="dropdown-item itmFormula" href="#" data-objetivo="salida">Fórmula</a>
+  					</div>
+				</div>
+			</div>
+			<div class="card-body">
+				<div class="contenedor container" style="width: 100%" data-contenedor="salida">
+					<!--Contenedor de variables-->
+				</div>
+				<!--Fórmula-->
+				<div class="row formula" data-objetivo="salida" style="display: none">
+					<div class="col-md-5">
+						<label for="">Nombre de Variable</label>
+						<input type="text" class="form-control" data-input="salidaNombreFormula">
+					</div>
+					<div class="col-md-6">
+						<label for="">Fórmula</label>
+						<input type="text" class="form-control" data-input="salidaFormula">
+					</div>
+					<div class="col-md-1">
+						<div class="btn btn-primary btnAddFormulaVar" data-contenedor="salida" data-EE="false" style="margin-top: 30px"><i class="fa fa-plus"></i></div>
+					</div>
+				</div>
+				<!--Fin Fórmula-->
+				<!--Condicional-->
+				<div class="row condicional" data-objetivo="salida" style="display: none">
+					<div class="col-md-5">
+						<label for="">Nombre de Variable</label>
+						<input type="text" class="form-control" data-input="entradaNombreCondicional">
+					</div>
+					<div class="col-md-6">
+						<div style="width: 100%" class="contenedorCondiciones" data-objetivo="salida">
+							<!--Contenedor de variables-->
+						</div>
+						<div class="row">
+							<div class="col-md-5">
+								<label for="">Tipo</label>
+								<input type="text" class="form-control" data-input="salidaTipo">
+							</div>
+							<div class="col-md-3">
+								<label for="">Unidad</label>
+								<input type="text" class="form-control" data-input="salidaUnidad">
+							</div>
+							<div class="col-md-3">
+								<label for="">Probabilidad</label>
+								<input type="text" class="form-control" data-input="salidaProbabilidad">
+							</div>
+							<div class="col-md-1">
+								<div class="btn btn-primary btnAddCond" style="margin-top: 30px" data-objetivo="salida"><i class="fa fa-plus"></i></div>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-1">
+						<div class="btn btn-primary btnAddCondicionalVar" data-contenedor="salida" style="margin-top: 30px"><i class="fa fa-plus"></i></div>
+					</div>
+				</div>
+				<!--Fin Condicional-->
+			</div>
+		</div>
+		<!--FINAL PANEL DE SALIDA-->
+
+
+		<div class="col-md-12 text-right" style="margin-bottom: 12px">
+			<div class="btn btn-outline-secondary" id="btnresolver">Resolver</div>
+		</div>
+
+		<!--PANEL DE RESPUESTA-->
+		<div class="card text-center">
+	 		<div class="card-header">
+				<ul class="nav nav-tabs card-header-tabs">
+		  			<li class="nav-item">
+						<a class="nav-link active" style="cursor: pointer"  id="btnTabla">Tabla de solución</a>
+		  			</li>
+					<li class="nav-item">
+						<a class="nav-link" style="cursor: pointer" id="btnSolucion">Respuesta a salida</a>
+		  			</li>
+				</ul>
+	  		</div>
+	  		<div class="card-body">
+				<div id="paneltabla">
+					<table class="table" id="tableSolucion">
+						<thead>
+							<tr>
+							</tr>
+						</thead>
+						<tbody>
+						</tbody>
+					</table>
+				</div>
+				<div id="panelsolucion" style="display: none">
+					<table class="table" id="tableRespuesta">
+						<thead>
+							<tr>
+							</tr>
+						</thead>
+						<tbody>
+						</tbody>
+					</table>
+				</div>
+
+	  		</div>
+		</div>
+		<!--FINAL PANEL DE RESPUESTA-->
+
+		
+		<div class="col-md-12" style="height: 100px">
+
+		</div>
+
+
+	</div>
+
+	<script src="{% static 'js/jquery-3.1.1.min.js' %}"></script>
+	<script src="{% static 'vendor/popper/popper.js' %}"></script>
+	<script src="{% static 'js/bootstrap.min.js' %}"></script>
+	<script src="{% static 'js/SimulacionJS.js' %}"></script>
+
+	<script>
+		$("#btnEjemplo").click(function (e) {
+			e.preventDefault()
+			$("#varEjemplos").show()
+			$("#tableSolucion").html('<thead><tr><th data-formula="[A]">R1</th><th data-formula="R1*5">TEA</th><th data-formula="[A]">R2</th><th data-formula="[COND2]" data-datos="[{&quot;tipo&quot;:&quot;0&quot;,&quot;valor1&quot;:&quot;R2&quot;,&quot;oper&quot;:&quot;<=&quot;,&quot;valor2&quot;:&quot;0.5&quot;},{&quot;tipo&quot;:&quot;1&quot;,&quot;valor1&quot;:&quot;R2&quot;,&quot;oper&quot;:&quot;<=&quot;,&quot;valor2&quot;:&quot;0.8&quot;},{&quot;tipo&quot;:&quot;2&quot;,&quot;valor1&quot;:&quot;R2&quot;,&quot;oper&quot;:&quot;<=&quot;,&quot;valor2&quot;:&quot;1&quot;}]">TA</th><th data-formula="ILL[i-1]+TEA">ILL</th><th data-formula="[COND2]" data-datos="[{&quot;tipo&quot;:&quot;0&quot;,&quot;valor1&quot;:&quot;ILL&quot;,&quot;oper&quot;:&quot;>=&quot;,&quot;valor2&quot;:&quot;IS[i-1]&quot;},{&quot;tipo&quot;:&quot;1&quot;,&quot;valor1&quot;:&quot;ILL&quot;,&quot;oper&quot;:&quot;<&quot;,&quot;valor2&quot;:&quot;IS[i-1]&quot;}]">EspA</th><th data-formula="[COND2]" data-datos="[{&quot;tipo&quot;:&quot;ILL&quot;,&quot;valor1&quot;:&quot;EspA&quot;,&quot;oper&quot;:&quot;=&quot;,&quot;valor2&quot;:&quot;0&quot;},{&quot;tipo&quot;:&quot;IS[i-1]&quot;,&quot;valor1&quot;:&quot;EspA&quot;,&quot;oper&quot;:&quot;=&quot;,&quot;valor2&quot;:&quot;1&quot;}]">ICA</th><th data-formula="[COND2]" data-datos="[{&quot;tipo&quot;:&quot;300/20&quot;,&quot;valor1&quot;:&quot;TA&quot;,&quot;oper&quot;:&quot;=&quot;,&quot;valor2&quot;:&quot;0&quot;},{&quot;tipo&quot;:&quot;550/20&quot;,&quot;valor1&quot;:&quot;TA&quot;,&quot;oper&quot;:&quot;=&quot;,&quot;valor2&quot;:&quot;1&quot;},{&quot;tipo&quot;:&quot;180/20&quot;,&quot;valor1&quot;:&quot;TA&quot;,&quot;oper&quot;:&quot;=&quot;,&quot;valor2&quot;:&quot;2&quot;}]">TAb</th><th data-formula="ICA+TAb">IS</th></tr></thead><tbody><tr><td>0.69</td><td></td><td>0.9</td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>0.22</td><td></td><td>0.25</td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>0.13</td><td></td><td>0.44</td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>0.31</td><td></td><td>0.93</td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>0.81</td><td></td><td>0.37</td><td></td><td></td><td></td><td></td><td></td><td></td></tr></tbody>')
+        })
+	</script>
+
+	<script>
+		$("#btnresolver").click(function () {
+			var lst_variable = []
+			lst_variable.push({})
+
+		    var tableCol = $("table#tableSolucion thead tr th")
+			var tableFil = $("table#tableSolucion tbody tr")
+
+			var resultados = new Array()
+
+			//RESOLVIENDO VARIABLES DE ENTRADA Y DE ESTADO
+			for (var e=0; e < tableFil.length; e++){//Fila
+		        resultados[e] = new Array()
+				for (var i=0; i < tableCol.length; i++){//Col
+					var nombre_variable = $(tableCol[i]).html()
+					var data_formula = $(tableCol[i]).data("formula")
+					var valor = $($(tableFil[e]).children()[i]).html()
+					resultados[e][nombre_variable] = new Array()
+					if(data_formula == "[A]"){
+						var oper = valor+"+0$"
+						var lst_oper = new interpretar_resolver(oper).get_lst_oper()
+						var R = new resolver(lst_oper, lst_variable).getResultado()
+						lst_variable[0][nombre_variable] = R
+						resultados[e][nombre_variable] = R
+					}
+					else if(data_formula == "[COND2]"){
+					    var datos = $(tableCol[i]).data("datos")
+						var res = ""
+						for(var d=0; d < datos.length; d++){ //Comparativas
+					        var oper = datos[d]["oper"]
+							var v1 = datos[d]["valor1"]
+							if (new interpretar_resolver(null).isNumber(v1))
+								v1 = parseFloat(v1)
+							else{
+					            var nombreVar = v1
+					            while (v1.includes("[i-1]")){
+									nombreVar = v1.split("[")[0]
+									var o = v1.split("[")[1].split("]")[0].replace("i", e)
+									var filaN = parseInt(o.split("-")[0]) - parseInt(o.split("-")[1])
+									if(filaN != -1)
+										v1 = data_formula.replace(nombreVar + "[i-1]", resultados[filaN][nombreVar])
+									else
+										v1 = data_formula.replace(nombreVar+"[i-1]", 0)
+								}
+
+								if(lst_variable[0][nombreVar] != null)
+					            	v1 = parseFloat(lst_variable[0][nombreVar])
+								else
+								    v1 = 0
+							}
+
+							var v2 = datos[d]["valor2"]
+							if (new interpretar_resolver(null).isNumber(v2))
+								v2 = parseFloat(v2)
+							else{
+					            var nombreVar = v2
+					            while (v2.includes("[i-1]")){
+									var nombreVar = v2.split("[")[0]
+									var o = v2.split("[")[1].split("]")[0].replace("i", e)
+									var filaN = parseInt(o.split("-")[0]) - parseInt(o.split("-")[1])
+									if(filaN != -1)
+										v2 = data_formula.replace(nombreVar + "[i-1]", resultados[filaN][nombreVar])
+									else
+										v2 = data_formula.replace(nombreVar+"[i-1]", 0)
+								}
+								//alert("lst_variable2: " + lst_variable[0][nombreVar] )
+					            if(lst_variable[0][nombreVar] != null)
+					            	v2 = parseFloat(lst_variable[0][nombreVar])
+								else
+								    v2 = 0
+							}
+
+							switch (oper){
+								case "=":
+									if(v1 == v2)
+								        res = datos[d]["tipo"]
+								    break;
+								case ">=":
+								    if(v1 >= v2)
+								        res = datos[d]["tipo"]
+								    break;
+								case ">":
+									if(v1 > v2)
+								        res = datos[d]["tipo"]
+								    break;
+								case "<=":
+								    if(v1 <= v2)
+								        res = datos[d]["tipo"]
+								    break;
+								case "<":
+									if(v1 < v2)
+								        res = datos[d]["tipo"]
+								    break;
+								default:
+								    continue
+							}
+							if(res != "")
+							    break
+						}
+
+						if(new interpretar_resolver(null).isNumber(res)){
+					        var oper = res+"+0$"
+							var lst_oper = new interpretar_resolver(oper).get_lst_oper()
+							var R = new resolver(lst_oper, lst_variable).getResultado()
+							lst_variable[0][nombre_variable] = R
+							$($(tableFil[e]).children()[i]).html(R)
+							resultados[e][nombre_variable] = R
+						}
+						else{
+					        var flat = false
+					        while (res.includes("[i-1]")){
+					            flat = true
+								var nombreVar = res.split("[")[0]
+								var o = res.split("[")[1].split("]")[0].replace("i", e)
+								var filaN = parseInt(o.split("-")[0]) - parseInt(o.split("-")[1])
+								if(filaN != -1){
+					                res = res.replace(nombreVar + "[i-1]", resultados[filaN][nombreVar])
+									break
+								}
+								else{
+					                res = res.replace(nombreVar+"[i-1]", 0)
+					                break
+								}
+
+							}
+							if(!flat)
+					        	res = parseFloat(lst_variable[0][res])
+
+							var oper = res+"+0$"
+							var lst_oper = new interpretar_resolver(oper).get_lst_oper()
+							var R = new resolver(lst_oper, lst_variable).getResultado()
+							lst_variable[0][nombre_variable] = R
+							$($(tableFil[e]).children()[i]).html(R)
+							resultados[e][nombre_variable] = R
+						}
+
+					}
+					else{
+					    try{
+					        while (data_formula.includes("[i-1]")){
+                                var nombreVar = data_formula.split("[")[0]
+                                var o = data_formula.split("[")[1].split("]")[0].replace("i", e)
+                                var filaN = parseInt(o.split("-")[0]) - parseInt(o.split("-")[1])
+                                if(filaN != -1)
+                                    data_formula = data_formula.replace(nombreVar + "[i-1]", resultados[filaN][nombreVar])
+                                else
+                                    data_formula = data_formula.replace(nombreVar+"[i-1]", 0)
+                            }
+                        }
+                        catch (e) {
+
+                        }
+
+
+						var oper = data_formula+"+0$"
+						var lst_oper = new interpretar_resolver(oper).get_lst_oper()
+						var R = new resolver(lst_oper, lst_variable).getResultado()
+						lst_variable[0][nombre_variable] = R
+						$($(tableFil[e]).children()[i]).html(R)
+						resultados[e][nombre_variable] = R
+					}
+				}
+			}
+
+			console.log("resultados", resultados)
+
+			//RESOLVIENDO VARIABLES DE SALIDAS
+			var tableCol2 = $("table#tableRespuesta thead tr th")
+			var tableFil2 = $("table#tableRespuesta tbody tr")
+
+
+			for (var i=0; i < tableCol2.length; i++) {//Col
+			    var operacion = $(tableCol2[i]).data("formula")
+				var valor = $(tableCol2[i]).data("valor")
+				var suma = 0
+				var count = 0
+				for(var j=0; j < tableFil.length; j++){
+			        suma += resultados[j][valor]
+					count++
+				}
+				if(operacion=="[P]"){
+			        $(tableFil2[0]).append("<td>"+(suma/count)+"</td>")
+				}
+            }
+
+
+
+
+        })
+
+	</script>
+
+	<script>
+		$('.dropdown-toggle').dropdown()
+	</script>
+
+	<script>
+		$("#btnTabla").click(function (e) {
+		    e.preventDefault()
+			$("#paneltabla").show()
+			$("#panelsolucion").hide()
+			$(this).addClass("active")
+			$("#btnSolucion").removeClass("active")
+        })
+
+		$("#btnSolucion").click(function (e) {
+		    e.preventDefault()
+			$("#paneltabla").hide()
+			$("#panelsolucion").show()
+			$(this).addClass("active")
+			$("#btnTabla").removeClass("active")
+        })
+	</script>
+
+	<script>
+		//Aparecer paneles
+		$(".itmFormula").click(function (e) {
+		    var target = $(this).data("objetivo")
+		    e.preventDefault();
+		    $(".condicional1[data-objetivo="+target+"]").hide()
+			$(".condicional2[data-objetivo="+target+"]").hide()
+			$(".formula[data-objetivo="+target+"]").show()
+        })
+
+		$(".itmCondicional1").click(function (e) {
+		    var target = $(this).data("objetivo")
+		    e.preventDefault();
+		    $(".formula[data-objetivo="+target+"]").hide()
+			$(".condicional1[data-objetivo="+target+"]").show()
+			$(".condicional2[data-objetivo="+target+"]").hide()
+        })
+
+		$(".itmCondicional2").click(function (e) {
+		    var target = $(this).data("objetivo")
+		    e.preventDefault();
+		    $(".formula[data-objetivo="+target+"]").hide()
+			$(".condicional1[data-objetivo="+target+"]").hide()
+			$(".condicional2[data-objetivo="+target+"]").show()
+        })
+
+		//---------------------
+
+		//Añadir una formula
+		$(".btnAddFormulaVar").click(function () {
+		    var target = $(this).data("contenedor")
+			var nombre = $("input[data-input="+target+"NombreFormula]")
+			var formula = $("input[data-input="+target+"Formula]")
+			var EE = $(this).data("ee")
+			if(nombre.val() != "" && formula.val() != ""){
+		        var html = '<span class="row" style="margin-bottom: 10px"><div class="col-md-1"><div class="btn btn-info btnAddCol'+nombre.val()+'"><i class="fa fa-plus"></i></div></div><div class="col-md-5">'+nombre.val()+'</div><div class="col-md-6">'+formula.val()+'</div></span>'
+				$(".contenedor[data-contenedor="+target+"]").append(html)
+				btnAddColForm(nombre.val(), formula.val(), EE)
+				nombre.val("")
+				formula.val("")
+				$(".formula[data-objetivo="+target+"]").hide()
+			}
+		    else{
+		        alert("Debe llenar todos los campos")
+			}
+        })
+
+		//Añadir la condicional 2
+		$(".btnAddCond2").click(function () {
+		    var target = $(this).data("objetivo")
+			var es = $("input[data-input="+target+"Nombre]")
+			var valor1 = $("input[data-input="+target+"Valor1]")
+			var oper = $("select[data-input="+target+"Oper]")
+			var valor2 = $("input[data-input="+target+"Valor2]")
+			if(es.val() != "" && valor1.val() != "" && valor2.val() != ""){
+		        var html = '<div class="row" style="margin-bottom: 12px"><div class="col-md-3 itm" data-tipo="tipo">'+es.val()+'</div><div class="col-md-3 itm"><b>=></b></div><div class="col-md-3" ><span class="itm" data-tipo="valor1">'+valor1.val()+'</span><span class="itm" data-tipo="oper">'+oper.val()+'</span></div><div class="col-md-3 itm" data-tipo="valor2">'+valor2.val()+'</div></div>'
+				$(".contenedorCondiciones2[data-objetivo="+target+"]").append(html)
+				es.val("")
+				valor1.val("")
+				valor2.val("")
+			}
+			else{
+		        alert("Debe adicionar algun elemento.")
+			}
+		})
+
+		$(".btnAddCondicionalVar2").click(function () {
+		    var target = $(this).data("contenedor")
+			var nombre = $("input[data-input="+target+"NombreCondicional2]")
+			if(nombre.val() != "" && $(".contenedorCondiciones2[data-objetivo="+target+"]").text().length != 8 ){
+		        var tipo = "", valor1 = "", oper = "", valor2 = "", table = ""
+				var datos = Array()
+		        $(".contenedorCondiciones2 .row").each(function(){
+		            table += "<tr>"
+					$(this).find(".itm").each(function () {
+		                if($(this).data('tipo') == "tipo")
+		                    tipo = $(this).html()
+						else if ($(this).data('tipo') == "valor1")
+						    valor1 = $(this).html()
+						else if ($(this).data('tipo') == "oper")
+						    oper = $(this).html()
+						else if ($(this).data('tipo') == "valor2")
+						    valor2 = $(this).html()
+					})
+					datos.push({
+						"tipo": tipo,
+						"valor1": valor1,
+						"oper": oper,
+						"valor2": valor2
+					})
+					table += "<td>"+tipo+"</td><td>=></td><td>"+valor1+oper+valor2+"</td>"
+				})
+				table += "</tr>"
+		        var html = '<div class="row" style="margin-bottom: 20px"><div class="col-md-1"><div class="btn btn-info btnAddCond2'+nombre.val()+'"><i class="fa fa-plus"></i></div></div><div class="col-md-5">'+nombre.val()+' =</div><div class="col-md-6"><table class="table"><thead>'+table+'</thead></table></div></div>'
+				$(".contenedor[data-contenedor="+target+"]").append(html)
+				$(".contenedorCondiciones2").html("")
+				$(".condicional2[data-objetivo="+target+"]").hide()
+				btnAddCondB(nombre.val(), datos)
+			}
+			else{
+		        alert("Debe llenar todos los campos")
+			}
+		})
+
+		function btnAddColForm(variable, formula, EE=true) {
+		    if (EE)
+				$(".btnAddCol"+variable).click(function () {
+					$(this).hide()
+					if(formula=="[A]"){
+						//Poniendo cabeza
+						var thead = ""
+						var count = $("table#tableSolucion tbody").children().length
+						thead += "<th data-formula='[A]'>"+variable+"</th>"
+						$("table#tableSolucion thead tr").append(thead)
+
+						//Poniendo iteraciones en caso de no existir
+						if(count == 0){
+							count = prompt("¿Cuántos elementos a generar?")
+							var tbody = ""
+							for(var i = 0; i < count; i++){
+								tbody+="<tr></tr>"
+							}
+							$("table#tableSolucion tbody").append(tbody)
+						}
+
+						for(var i = 0; i < count; i++){
+							var v = (Math.floor(Math.random() * 100)/100)
+							$($("table#tableSolucion tbody tr")[i]).append("<td>"+v+"</td>")
+						}
+					}
+					else {
+						//Poniendo cabeza
+						var thead = ""
+						var count = $("table#tableSolucion tbody").children().length
+						thead += "<th data-formula='"+formula+"'>"+variable+"</th>"
+						$("table#tableSolucion thead tr").append(thead)
+
+						//Poniendo iteraciones en caso de no existir
+						if(count == 0){
+							count = prompt("¿Cuántos elementos a generar?")
+							var tbody = ""
+							for(var i = 0; i < count; i++){
+								tbody+="<tr></tr>"
+							}
+							$("table#tableSolucion tbody").append(tbody)
+						}
+
+						for(var i = 0; i < count; i++){
+							$($("table#tableSolucion tbody tr")[i]).append("<td></td>")
+						}
+					}
+				})
+			else
+			    $(".btnAddCol"+variable).click(function () {
+			        if(formula.split("(")[0] == "P"){ //Probabilidad
+			            var valor = formula.split("(")[1].split(")")[0]
+						//Poniendo cabeza
+						var thead = ""
+						var count = $("table#tableRespuesta tbody").children().length
+						thead += "<th data-formula='[P]' data-valor='"+valor+"'>"+variable+"</th>"
+						$("table#tableRespuesta thead tr").append(thead)
+						$(this).hide()
+
+						if($("table#tableRespuesta tbody").children().length==0){
+			                var tbody = "<tr></tr>"
+							$("table#tableRespuesta tbody").append(tbody)
+						}
+
+					}
+					else if(formula.split("(")[0] == "M"){ //Probabilidad
+			            alert("media")
+					}
+				})
+        }
+
+        function btnAddCondB(nombre, datos) {
+			$(".btnAddCond2"+nombre).click(function () {
+			    $(this).hide()
+			    //Poniendo cabeza
+				var thead = ""
+				var count = $("table#tableSolucion tbody").children().length
+				thead += "<th data-formula='[COND2]' data-datos='"+JSON.stringify(datos)+"'>"+nombre+"</th>"
+				$("table#tableSolucion thead tr").append(thead)
+
+				//Poniendo iteraciones en caso de no existir
+				if(count == 0){
+					count = prompt("¿Cuántos elementos a generar?")
+					var tbody = ""
+					for(var i = 0; i < count; i++){
+						tbody+="<tr></tr>"
+					}
+					$("table#tableSolucion tbody").append(tbody)
+				}
+
+				for(var i = 0; i < count; i++){
+						$($("table#tableSolucion tbody tr")[i]).append("<td></td>")
+					}
+
+            })
+        }
+	</script>
+
+	<script>
+
+	</script>
+
+
+	<script>
+		class interpretar_resolver{
+			index_parm = 0;
+			index_oper = 0;
+			palabra = "";
+			var_entorno = []
+
+			constructor(oper){
+			    this.var_entorno.push({})
+				var lst_parm = []
+				lst_parm.push({})
+				var lst_oper = []
+				for(var pos in oper){
+					switch (oper[pos]){
+						case "+":
+							if(this.isNumber(this.palabra)){
+								var parm = new parametro(parseFloat(this.palabra))
+								lst_parm[0]["parm"+this.index_parm] = parm
+							}
+							else{
+								var parm = new parametro(this.palabra)
+								lst_parm[0]["parm"+this.index_parm] = parm
+							}
+							this.index_parm+=1
+							this.palabra = ""
+
+							lst_oper.push("+");
+							this.index_oper+=1
+							break;
+						case "-":
+							if(this.isNumber(this.palabra)){
+								var parm = new parametro(parseFloat(this.palabra))
+								lst_parm[0]["parm"+this.index_parm] = parm
+							}
+							else{
+								var parm = new parametro(this.palabra)
+								lst_parm[0]["parm"+this.index_parm] = parm
+							}
+							this.index_parm+=1
+							this.palabra = ""
+
+							lst_oper.push("-");
+							this.index_oper+=1
+							break;
+						case "*":
+							if(this.isNumber(this.palabra)){
+								var parm = new parametro(parseFloat(this.palabra))
+								lst_parm[0]["parm"+this.index_parm] = parm
+							}
+							else{
+								var parm = new parametro(this.palabra)
+								lst_parm[0]["parm"+this.index_parm] = parm
+							}
+							this.index_parm+=1
+							this.palabra = ""
+
+							lst_oper.push("*");
+							this.index_oper+=1
+							break;
+						case "/":
+							if(this.isNumber(this.palabra)){
+								var parm = new parametro(parseFloat(this.palabra))
+								lst_parm[0]["parm"+this.index_parm] = parm
+							}
+							else{
+								var parm = new parametro(this.palabra)
+								lst_parm[0]["parm"+this.index_parm] = parm
+							}
+							this.index_parm+=1
+							this.palabra = ""
+
+							lst_oper.push("/");
+							this.index_oper+=1
+							break;
+						case "$": //Fin de cadena
+							if(this.isNumber(this.palabra)){
+								var parm = new parametro(parseFloat(this.palabra))
+								lst_parm[0]["parm"+this.index_parm] = parm
+							}
+							else{
+								var parm = new parametro(this.palabra)
+								lst_parm[0]["parm"+this.index_parm] = parm
+							}
+							this.index_parm+=1
+							this.palabra = ""
+
+							break;
+						default:
+							this.palabra += oper[pos]
+							break;
+					}
+				}
+
+				//revertir el orden de operadores
+				var lst_oper_temp = []
+				for(var t in lst_parm[0]){
+			        lst_oper_temp.push(lst_oper.pop())
+				}
+
+
+				var lst_oper2 = []
+				lst_oper2.push({})
+				var index = -1
+				var index_oper = 0
+				lst_oper_temp.pop()
+				for(var t in lst_parm[0]){
+					lst_oper2[0][t] = lst_parm[0][t]
+					index += 1
+					if(index == 1){
+						lst_oper2[0]["oper"+index_oper] = lst_oper_temp.pop()
+						index_oper+= 1
+						index =0
+					}
+				}
+				this.resultado = lst_oper2
+			}
+
+			get_lst_oper(){
+
+				return this.resultado;
+			}
+
+			isNumber(value) {
+				value = parseFloat(value)
+				return typeof value === 'number' && isFinite(value);
+			}
+
+			addVar(mivar, value){
+			    if( mivar in this.var_entorno[0]){
+					this.var_entorno[0][mivar].push(value)
+				}
+				else{
+					this.var_entorno[0][mivar] = []
+					this.var_entorno[0][mivar].push(value)
+				}
+			}
+
+			getVar(mivar){
+			    return this.var_entorno[0][mivar]
+			}
+
+		}
+	</script>
+
+	<script>
+
+
+
+		/*
+		var lst_variable = []
+		lst_variable.push({
+			"LCP": 5
+		})
+
+		var parm1 = new parametro("LCP")
+		var parm2 = new parametro(50)
+
+		var lst_oper = []
+		lst_oper.push({
+			"parm0": parm2,
+			"parm1": parm1,
+			"oper0": "-",
+		})
+
+		var result = new resolver(lst_oper, lst_variable)
+		alert(result.getResultado())
+		*/
+
+
+		/*
+		var lst_variable = []
+		lst_variable.push({})
+		var oper = "50+0$"
+		var lst_oper = new interpretar_resolver(oper).get_lst_oper()
+		var LCP = new resolver(lst_oper, lst_variable).getResultado()
+		//50
+
+		lst_variable[0]["LCP"] = LCP
+		oper = "LCP+10$"
+		lst_oper = new interpretar_resolver(oper).get_lst_oper()
+		var TCP = new resolver(lst_oper, lst_variable).getResultado()
+		//50+10=60
+
+		lst_variable[0]["TCP"] = TCP
+		oper = "LCP+TCP+10$"
+		lst_oper = new interpretar_resolver(oper).get_lst_oper()
+		var VAL = new resolver(lst_oper, lst_variable).getResultado()
+		//50+60+10=120
+
+		alert(VAL)
+		*/
+
+		/*
+		var lst_variable = []
+		lst_variable.push({})
+		var oper = "50+0$"
+		var lst_oper = new interpretar_resolver(oper)
+
+		lst_oper.addVar("LTE", 10);
+		lst_oper.addVar("LTE", 20);
+		lst_oper.addVar("AA", 50);
+		alert(lst_oper.getVar("AA"))
+		*/
+
+
+	</script>
+
+
+	<script>
+
+
+		/*
+		var c = new combinatoria();
+		c.addCombinatoria("Pasajero", 300, 50)
+		c.addCombinatoria("Carga", 550, 30)
+		c.addCombinatoria("Riego", 180, 20)
+
+		alert(c.getTipo(0.7))
+		*/
+
+
+	</script>
+
+	<script>
+		var lst_variable = []
+		lst_variable.push({})
+		var oper = "0.05+0$"
+		var lst_oper = new interpretar_resolver(oper).get_lst_oper()
+		var LSD = new resolver(lst_oper, lst_variable).getResultado()
+		lst_variable[0]["LSD"] = LSD
+		//alert("LSD: " + LSD)
+		//0.05
+
+		oper = "LSD-5$"
+		lst_oper = new interpretar_resolver(oper).get_lst_oper()
+		var PO = new resolver(lst_oper, lst_variable).getResultado()
+		lst_variable[0]["PO"] = PO
+		//alert("PO: " + PO)
+		//4.95
+
+		oper = "PO+50-LSD$"
+		lst_oper = new interpretar_resolver(oper).get_lst_oper()
+		var LL = new resolver(lst_oper, lst_variable).getResultado()
+		//alert("LL: " + LL)
+		//45.099
+
+	</script>
+
+</body>
+</html>
